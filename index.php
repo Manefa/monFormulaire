@@ -11,7 +11,7 @@
 
 <body>
 
-    <div class="container-fluid">
+    <div class="container-fluid bg-dark text-light">
         <div class="row">
 
             <?php
@@ -32,6 +32,7 @@
             $transport = "";
             $transportErreur = "";
 
+            $dateValidationRegex = "/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/"; 
             $erreur = false;
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -39,7 +40,7 @@
 
                 //Si on entre, on est dans l'envoie du formulaire
 
-                $exp = "/w3schools/i";
+                
 
                 // nom de l'usager
 
@@ -92,31 +93,29 @@
 
                 // genre
 
-                if (empty($_POST['exampleRadios'])) {
+                if (empty($_POST['genre'])) {
                     $genreErreur = "Le genre est requis";
                     $erreur = true;
                 } else {
-                    $genre = test_input($_POST["exampleRadios"]);
+                    $genre = test_input($_POST["genre"]);
+                    var_dump($genre);
                     
                 }
 
-                //
+                // date
 
-                if (empty($_POST['date'])) {
+                
+
+                if (empty($_POST['date']) || preg_match($dateValidationRegex, $_POST['date']) == false) {
                     $dateErreur = "Le date est requis";
 
                 } else {
-
-                    $timestamp = strtotime('2009-10-22');
-
-                    $day = date('dMY', $timestamp);
-                    var_dump($day);
 
                     $date = test_input($_POST["date"]);
                     
                 }
 
-                //
+                // transport
 
                 if (empty($_POST['transport'])) {
                     $transportErreur = "Le transport est requis";
@@ -175,23 +174,23 @@
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genre" id="genreHomme" value="homme" <?php echo($genre == "homme") ? "checked" : "" ?> >
+                            <input class="form-check-input" type="radio" name="genre" id="genreHomme" value="Homme" <?php echo($genre == "Homme") ? "checked" : "" ?> >
                         
                             <label class="form-check-label" for="genreHomme">
-                                homme
+                                Homme
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genre" id="genreFemme" value="femme" <?php echo ($genre == "femme") ? "checked" : "" ?>>
+                            <input class="form-check-input" type="radio" name="genre" id="genreFemme" value="Femme" <?php echo ($genre == "Femme") ? "checked" : "" ?>>
                             
                             <label class="form-check-label" for="genreFemme">
-                                femme
+                                Femme
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="genre" id="genreNonGenre" value="non genre" <?php echo($genre == "non genre") ? "checked" : "" ?> >
+                            <input class="form-check-input" type="radio" name="genre" id="genreNonGenre" value="Non genre" <?php echo($genre == "Non genre") ? "checked" : "" ?> >
                         
                             <label class="form-check-label" for="genreNonGenre">
                                 Non-genre
@@ -224,9 +223,30 @@
                     </form>
                 </div>
 
+                
+
             <?php
             }
 
+            if ($_SERVER["REQUEST_METHOD"] == "POST" || $erreur == false) {
+                
+            ?>
+
+                <div class="col-md-6">
+
+                
+                <img src="<?php echo $avatar; ?>" class="" hei  alt="oups !!">
+                
+                    
+                    
+                    <h1><?php echo $nom; ?></h1>
+                    <h1><?php echo $email; ?></h1>
+                    <h1><?php echo $genre; ?></h1>
+                
+                </div>
+
+            <?php
+            }
             function test_input($data)
             {
                 $data = trim($data);
