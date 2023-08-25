@@ -16,20 +16,32 @@
 
             <?php
             $nom = "";
-            $motdepasse = "";
-            $confirmmotdepasse = "";
+            $nomErreur = "";
+            $motDePasse = "";
+            $motDePasseErreur = "";
+            $confirmMotDePasse = "";
+            $confirmMotDePasseErreur = "";
             $email = "";
+            $emailErreur = "";
             $avatar = "";
+            $avatarErreur = "";
             $genre = "";
+            $genreErreur = "";
             $date = "";
+            $dateErreur = "";
             $transport = "";
+            $transportErreur = "";
 
-            $nomerreur = "";
             $erreur = false;
 
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "POST";
+
                 //Si on entre, on est dans l'envoie du formulaire
+
+                $exp = "/w3schools/i";
+
+                // nom de l'usager
 
                 if (empty($_POST['name'])) {
                     $nomErreur = "Le nom est requis";
@@ -38,149 +50,180 @@
                     $nom = test_input($_POST["name"]);
                 }
 
-                //
+                // mot de passe
 
                 if (empty($_POST['password'])) {
-                    $nomErreur = "Le password est requis";
+                    $motDePasseErreur = "Le password est requis";
                     $erreur = true;
                 } else {
-                    $motdepasse = test_input($_POST["password"]);
+                    $motDePasse = test_input($_POST["password"]);
+                    
                 }
 
-                //
+                // confirmation du mot de passe
 
                 if (empty($_POST['confirmPassword'])) {
-                    $nomErreur = "Le confirmPassword est requis";
+                    $confirmMotDePasseErreur = "Le confirmPassword est requis";
                     $erreur = true;
                 } else {
-                    $confirmmotdepasse = test_input($_POST["confirmPassword"]);
+                    $confirmMotDePasse = test_input($_POST["confirmPassword"]);
+                    
                 }
 
-                //
+                // email 
 
                 if (empty($_POST['email'])) {
-                    $nomErreur = "Le email est requis";
+                    $emailErreur = "Le email est requis";
                     $erreur = true;
                 } else {
                     $email = test_input($_POST["email"]);
+                    
                 }
 
-                //
+                // avatar
 
                 if (empty($_POST['avatar'])) {
-                    $nomErreur = "Le avatar est requis";
+                    $avatarErreur = "Le avatar est requis";
                     $erreur = true;
                 } else {
                     $avatar = test_input($_POST["avatar"]);
+                    
                 }
 
-                //
+                // genre
 
                 if (empty($_POST['exampleRadios'])) {
-                    $nomErreur = "Le genre est requis";
+                    $genreErreur = "Le genre est requis";
                     $erreur = true;
                 } else {
                     $genre = test_input($_POST["exampleRadios"]);
+                    
                 }
 
                 //
 
                 if (empty($_POST['date'])) {
-                    $nomErreur = "Le date est requis";
-                    $erreur = true;
+                    $dateErreur = "Le date est requis";
+
                 } else {
+
+                    $timestamp = strtotime('2009-10-22');
+
+                    $day = date('dMY', $timestamp);
+                    var_dump($day);
+
                     $date = test_input($_POST["date"]);
+                    
                 }
 
                 //
 
                 if (empty($_POST['transport'])) {
-                    $nomErreur = "Le transport est requis";
+                    $transportErreur = "Le transport est requis";
                     $erreur = true;
                 } else {
                     $transport = test_input($_POST["transport"]);
+        
                 }
 
                 // Inserer dans la base de données
+
+                
                 //SI erreurs, on réaffiche le formulaire 
             }
             if ($_SERVER["REQUEST_METHOD"] != "POST" || $erreur == true) {
-                echo "Erreur ou 1ere fois";
-                echo $erreur;
+                //echo "Erreur ou 1ere fois";
+                //echo $erreur;
 
 
             ?>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="mb-3">
-                            <label for="exampleInputName" class="form-label">Nom Usager</label>
-                            <input type="text" value="<?php echo $name ?>" class="form-control" id="exampleInputName" name="name" aria-describedby="emailHelp">
+                            <label for="name" class="form-label">Nom Usager</label>
+                            <input type="text" class="form-control" id="name" value="<?php echo $nom; ?>" name="name" >
+                            <span style="color:red";><?php echo $nomErreur;?></span>
+                            <br>
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" mame="password">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" aria-describedby="passwordHelp" name="password" value="<?php echo $motDePasse; ?>">
+                            <div id="emailHelp" class="form-text">We'll never share your password with anyone else.</div>
+                            <span style="color:red";><?php echo $motDePasseErreur;?></span>
+                            <br>
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputConfirmPassword1" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="ConfirmPassword1" name="confirmPassword">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" value="<?php echo $confirmMotDePasse; ?>">
+                            <span style="color:red";><?php echo $confirmMotDePasseErreur;?></span>
+                            <br>
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="text" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                            <label for="email" class="form-label">Email address</label>
+                            <input type="email" name="email" class="form-control" id="email"  value="<?php echo $email; ?>">
+                            <span style="color:red";><?php echo $emailErreur;?></span>
+                            <br>
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputConfirmPassword1" class="form-label">Avatar</label>
-                            <input type="text" class="form-control" id="ConfirmPassword1" name="avatar">
+                            <label for="avatar" class="form-label">Avatar</label>
+                            <input type="text" class="form-control" id="avatar" name="avatar" value="<?php echo $avatar; ?>">
+                            <br>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" checked>
-                            <label class="form-check-label" for="exampleRadios1">
+                            <input class="form-check-input" type="radio" name="genre" id="genreHomme" value="homme" <?php echo($genre == "homme") ? "checked" : "" ?> >
+                        
+                            <label class="form-check-label" for="genreHomme">
                                 homme
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                            <label class="form-check-label" for="exampleRadios2">
+                            <input class="form-check-input" type="radio" name="genre" id="genreFemme" value="femme" <?php echo ($genre == "femme") ? "checked" : "" ?>>
+                            
+                            <label class="form-check-label" for="genreFemme">
                                 femme
                             </label>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
-                            <label class="form-check-label" for="exampleRadios3">
+                            <input class="form-check-input" type="radio" name="genre" id="genreNonGenre" value="non genre" <?php echo($genre == "non genre") ? "checked" : "" ?> >
+                        
+                            <label class="form-check-label" for="genreNonGenre">
                                 Non-genre
                             </label>
                         </div>
+                        <span style="color:red";><?php echo $genreErreur;?></span>
                         <br>
                         <div class="mb-3">
-                            <label for="exampleInputConfirmPassword1" class="form-label">Date de naissance</label>
-                            <input type="date" class="form-control" id="ConfirmPassword1" name="date">
+                            <label for="date" class="form-label">Date de naissance</label>
+                            <input type="date" class="form-control" id="date" name="date" value="<?php echo $date; ?>">
+                            <span style="color:red";><?php echo $dateErreur;?></span>
+                            
                         </div>
 
                         <div class="mb-3">
-                            <label for="exampleInputConfirmPassword1" class="form-label">Moyen de transport</label>
-                            <select class="form-select" name="transport" aria-label="Default select example">
-                                <option selected value="Auto">Auto</option>
-                                <option value="Autobus">Autobus</option>
-                                <option value="Marche">Marche</option>
-                                <option value="Vélo">Vélo</option>
+                            <label for="transport" class="form-label">Moyen de transport</label>
+                            <select class="form-select" id="transport" name="transport" aria-label="Default select example">
+                                <option <?php echo ($transport == "Auto") ? "selected" : "" ?> value="Auto" >Auto</option>
+                                <option <?php echo ($transport == "Autobus") ? "selected" : "" ?> value="Autobus">Autobus</option>
+                                <option <?php echo ($transport == "Marche") ? "selected" : "" ?> value="Marche">Marche</option>
+                                <option <?php echo ($transport == "Vélo") ? "selected" : "" ?> value="Vélo">Vélo</option>
                             </select>
+                            <span style="color:red";><?php echo $transportErreur;?></span>
+                            <br><br>
                         </div>
-
-
 
                         <br>
 
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
+
             <?php
             }
 
